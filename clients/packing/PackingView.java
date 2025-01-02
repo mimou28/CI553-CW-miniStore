@@ -1,9 +1,11 @@
 package clients.packing;
 
 import catalogue.Basket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import middle.MiddleFactory;
 import middle.OrderProcessing;
-
+import java.text.SimpleDateFormat;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
@@ -92,11 +94,11 @@ public class PackingView implements Observer
 	  PackingModel model  = (PackingModel) modelC;
     String        message = (String) arg;
     theAction.setText( message );
-    
+    String currentDateAndTime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
     Basket basket =  model.getBasket();
     if ( basket != null )
     {
-      theOutput.setText( basket.getDetails() );
+      theOutput.setText( "Date & Time: " + currentDateAndTime + "\n" + basket.getDetails()+"\n"+ "Thank you for shopping with us at " +"\n" + "Ministore! Returns accepted within" + "\n"+"30 days with receipt");
     } else {
       theOutput.setText("");
     }
