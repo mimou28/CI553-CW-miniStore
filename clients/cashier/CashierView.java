@@ -1,16 +1,12 @@
 package clients.cashier;
-
 import catalogue.Basket;
 import middle.MiddleFactory;
 import middle.OrderProcessing;
 import middle.StockReadWriter;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
-
-
 /**
  * View of the model 
  */
@@ -22,7 +18,10 @@ public class CashierView implements Observer
   private static final String CHECK  = "Check";
   private static final String BUY    = "Buy";
   private static final String BOUGHT = "Bought/Pay";
+  private static final String STUDENT_DISCOUNT_15 = "STUDENT_DISCOUNT_15";
 
+  
+  
   private final JLabel      pageTitle  = new JLabel();
   private final JLabel      theAction  = new JLabel();
   private final JTextField  theInput   = new JTextField();
@@ -31,6 +30,7 @@ public class CashierView implements Observer
   private final JScrollPane theSP      = new JScrollPane();
   private final JButton     theBtCheck = new JButton( CHECK );
   private final JButton     theBtBuy   = new JButton( BUY );
+  private final JButton     theBtDiscount   = new JButton( STUDENT_DISCOUNT_15);
   private final JButton     theBtBought= new JButton( BOUGHT );
 
   private StockReadWriter theStock     = null;
@@ -75,8 +75,14 @@ public class CashierView implements Observer
     theBtBuy.setBounds( 16, 25+60*1, 80, 40 );      // Buy button 
     theBtBuy.addActionListener(                     // Call back code
       e -> cont.doBuy() );
-    cp.add( theBtBuy );                             //  Add to canvas
+    cp.add( theBtBuy );                      //  Add to canvas
 
+    
+    theBtDiscount.setBounds( 16, 25+60*2, 80, 40 );   // The Student Discount Button
+    theBtDiscount.addActionListener(                  // Call back code
+      e -> cont.doDiscount() );
+    cp.add( theBtDiscount );     
+    
     theBtBought.setBounds( 16, 25+60*3, 80, 40 );   // Bought Button
     theBtBought.addActionListener(                  // Call back code
       e -> cont.doBought() );
@@ -129,7 +135,6 @@ public class CashierView implements Observer
       theOutput.setText( "Customers order" );
     else
       theOutput.setText( basket.getDetails() );
-    
     theInput.requestFocus();      // Focus is here
     if (message.equals("!!! Not in stock")  || message.contains("Purchased")) {
     buyQuantity.setText("1");

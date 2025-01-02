@@ -157,6 +157,37 @@ public class CashierModel extends Observable
     theBasket = null;
     setChanged(); notifyObservers(theAction); // Notify
   }
+  
+  public void doDiscount() {
+	    if (theBasket != null && theBasket.size() > 0) {  // Ensure the basket is not empty
+	        double total = 0.00;
+
+	        // Calculate the total price of all items in the basket
+	        for (Product pr : theBasket) {
+	            total += pr.getPrice() * pr.getQuantity();
+	        }
+
+	        // Apply 15% discount
+	        double discountedTotal = total * 0.85;
+
+	        // Set the discounted total in the basket
+	        theBasket.setTotalPrice(discountedTotal);  // Assuming setTotalPrice() exists in the Basket class
+
+	        // Mark the discount as applied (if needed)
+	        theBasket.setDiscountApplied(true);
+
+	        // Notify the observers (UI will update with "Discount applied!")
+	        setChanged();
+	        notifyObservers("Discount applied!");
+	    } else {
+	        // If the basket is empty, notify that no discount was applied
+	        setChanged();
+	        notifyObservers("Basket is empty. Cannot apply discount.");
+	    }
+	}
+
+
+
 
   /**
    * ask for update of view callled at start of day

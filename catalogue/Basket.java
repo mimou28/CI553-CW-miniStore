@@ -1,5 +1,4 @@
 package catalogue;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Currency;
@@ -17,7 +16,9 @@ public class Basket extends ArrayList<Product> implements Serializable
 {
   private static final long serialVersionUID = 1;
   private int    theOrderNum = 0;          // Order number
-  
+  private boolean discountApplied = false;
+  private double total;
+
   /**
    * Constructor for a basket which is
    *  used to represent a customer order/ wish list
@@ -45,6 +46,30 @@ public class Basket extends ArrayList<Product> implements Serializable
   {
     return theOrderNum;
   }
+  public boolean isDiscountApplied() {
+	    return discountApplied;
+	}
+  public void setDiscountApplied(boolean applied) {
+	    discountApplied = applied;
+	}
+
+  /**
+   * Sets the discounted total price.
+   * @param newTotal New discounted total.
+   * 
+   */
+  public double getTotalPrice() {
+	    double total = 0.00;
+	    for (Product pr : this) {
+	        total += pr.getPrice() * pr.getQuantity();
+	    }
+	    return total;
+	}
+
+  public void setTotalPrice(double newTotal) {
+	    this.total = newTotal; // Assuming 'total' is the variable that holds the total price
+	}
+
   
   /**
    * Add a product to the Basket.
@@ -64,33 +89,42 @@ public class Basket extends ArrayList<Product> implements Serializable
    * Returns a description of the products in the basket suitable for printing.
    * @return a string description of the basket products
    */
-  public String getDetails()
-  {
-    Locale uk = Locale.UK;
-    StringBuilder sb = new StringBuilder(256);
-    Formatter     fr = new Formatter(sb, uk);
-    String csign = (Currency.getInstance( uk )).getSymbol();
-    double total = 0.00;
-    if ( theOrderNum != 0 )
-      fr.format( "Order number: %03d\n", theOrderNum );
-      
-    if ( this.size() > 0 )
-    {
-      for ( Product pr: this )
-      {
-        int number = pr.getQuantity();
-        fr.format("%-7s",       pr.getProductNum() );
-        fr.format("%-14.14s ",  pr.getDescription() );
-        fr.format("(%3d) ",     number );
-        fr.format("%s%7.2f",    csign, pr.getPrice() * number );
-        fr.format("\n");
-        total += pr.getPrice() * number;
-      }
-      fr.format("----------------------------\n");
-      fr.format("Total                       ");
-      fr.format("%s%7.2f\n",    csign, total );
-      fr.close();
-    }
-    return sb.toString();
-  }
+  public String getDetails() {
+	    Locale uk = Locale.UK;
+	    StringBuilder sb = new StringBuilder(256);
+	    Formatter fr = new Formatter(sb, uk);
+	    String csign = (Currency.getInstance(uk)).getSymbol();
+	    double total = 0.00;
+
+	    if (theOrderNum != 0)
+	        fr.format("Order number: %03d\n", theOrderNum);
+
+	    if (this.size() > 0) {
+	        for (Product pr : this) {
+	            int number = pr.getQuantity();
+	            fr.format("%-7s", pr.getProductNum());
+	            fr.format("%-14.14s ", pr.getDescription());
+	            fr.format("(%3d) ", number);
+	            fr.format("%s%7.2f", csign, pr.getPrice() * number);
+	            fr.format("\n");
+	            total += pr.getPrice() * number;
+	        }
+
+	        // Display the original total
+	        fr.format("----------------------------\n");
+	        fr.format("Total                       ");
+	        fr.format("%s%7.2f\n", csign, total);
+			// Display discounted total if discount was applied
+	        if (isDiscountApplied()) {
+	            double discountedTotal = total * 0.85;  // Apply 15% discount
+	            fr.format("Discounted Total             ");
+	            fr.format("%s%7.2f\n", csign, discountedTotal);
+	        }
+
+	        fr.close();
+	    }
+
+	    return sb.toString();
+	}
+
 }
