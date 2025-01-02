@@ -19,7 +19,7 @@ class PosOnScrn
   private static int cY = 0; // Initial window pos on screen
   
   // class initialiser
-  //  Will be called (once) when the class is loaded
+  //  Will be called (once) when the class is loaded 
   static
   {
     Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();

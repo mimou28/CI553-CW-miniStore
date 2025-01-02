@@ -54,6 +54,7 @@ public class PackingView implements Observer
     cp.setLayout(null);                             // No layout manager
     rootWindow.setSize( W, H );                     // Size of Window
     rootWindow.setLocation( x, y );
+    cp.setBackground(Color.decode("#D6DFE8"));
     
     Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
     

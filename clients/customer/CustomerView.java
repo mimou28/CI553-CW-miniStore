@@ -60,16 +60,17 @@ public class CustomerView implements Observer
     cp.setLayout(null);                             // No layout manager
     rootWindow.setSize( W, H );                     // Size of Window
     rootWindow.setLocation( x, y );
-
+    cp.setBackground(Color.decode("#D6DFE8"));
+    
     Font f = new Font("Monospaced",Font.PLAIN,12);  // Font f is
     
     pageTitle.setBounds( 110, 0 , 270, 20 );       
     pageTitle.setText( "Search products" );                        
     cp.add( pageTitle );
 
-    theBtCheck.setBounds( 16, 25+60*0, 80, 40 );    // Check button
+    theBtCheck.setBounds( 16, 25+60*0, 80, 40 );  // Check button
     theBtCheck.addActionListener(                   // Call back code
-      e -> cont.doCheck( theInput.getText() ) );
+      e -> cont.doCheck( theInput.getText())); 
     cp.add( theBtCheck );      //  Add to canvas
     
     theBtCheckName.setBounds( 16, 25+60*1, 80, 40 );  // Check button By Name 

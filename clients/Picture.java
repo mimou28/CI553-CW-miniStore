@@ -15,6 +15,7 @@ public class Picture extends Canvas
   private int   width      = 260;
   private int   height     = 260;
   private Image thePicture = null;
+  
 
   public Picture()
   {
