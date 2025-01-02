@@ -55,43 +55,36 @@ public class CustomerModel extends Observable
    * Check if the product is in Stock
    * @param productNum The product number
    */
-  public void doCheck(String productNum )
-  {
-    theBasket.clear();                          // Clear s. list
-    String theAction = "";
-    pn  = productNum.trim();                    // Product no.
-    int    amount  = 1;                         //  & quantity
-    try
-    {
-      if ( theStock.exists( pn ) )              // Stock Exists?
-      {                                         // T
-        Product pr = theStock.getDetails( pn ); //  Product
-        if ( pr.getQuantity() >= amount )       //  In stock?
-        { 
-          theAction =                           //   Display 
-            String.format( "%s : %7.2f (%2d) ", //
-              pr.getDescription(),              //    description
-              pr.getPrice(),                    //    price
-              pr.getQuantity() );               //    quantity
-          pr.setQuantity( amount );             //   Require 1
-          theBasket.add( pr );                  //   Add to basket
-          thePic = theStock.getImage( pn );     //    product
-        } else {                                //  F
-          theAction =                           //   Inform
-            pr.getDescription() +               //    product not
-            " not in stock" ;                   //    in stock
-        }
-      } else {                                  // F
-        theAction =                             //  Inform Unknown
-          "Unknown product number " + pn;       //  product number
-      }
-    } catch( StockException e )
-    {
-      DEBUG.error("CustomerClient.doCheck()\n%s",
-      e.getMessage() );
-    }
-    setChanged(); notifyObservers(theAction);
-  }
+  public void doCheck(String productNum) {
+	    theBasket.clear();                          // Clear s. list
+	    String theAction = "";
+	    pn  = productNum.trim();                    // Product no.
+	    int    amount  = 1;                         // & quantity
+	    try {
+	        if (theStock.exists(pn)) { // Check if the product exists
+	            Product pr = theStock.getDetails(pn); // Get product details
+	            if (pr.getQuantity() >= amount) { // Check if it's in stock
+	                theAction = String.format(
+	                    "Only %d %s left in the stock", // Corrected format
+	                    pr.getQuantity(),  // Quantity left
+	                    pr.getDescription() // Product description
+	                );
+	                pr.setQuantity(amount); // Require 1
+	                theBasket.add(pr); // Add to basket
+	                thePic = theStock.getImage(pn); // Get product image
+	            } else {
+	                theAction = pr.getDescription() + " not in stock";
+	            }
+	        } else {
+	            theAction = "Unknown product number " + pn;
+	        }
+	    } catch (StockException e) {
+	        DEBUG.error("CustomerModel.doCheck()\n%s", e.getMessage());
+	    }
+	    setChanged();
+	    notifyObservers(theAction); // Notify the view
+	}
+
 
   /**
    * Clear the products from the basket
