@@ -41,10 +41,12 @@ public class CashierController
    /**
    * Bought interaction from view
    */
+  
   public void doDiscount() 
   { 
 	  model.doDiscount() ; 
   }
+  
   public void doBought()
   {
     model.doBought();

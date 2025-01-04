@@ -67,7 +67,7 @@ public class Basket extends ArrayList<Product> implements Serializable
 	}
 
   public void setTotalPrice(double newTotal) {
-	    this.total = newTotal; // Assuming 'total' is the variable that holds the total price
+	    this.total = newTotal; 
 	}
 
   

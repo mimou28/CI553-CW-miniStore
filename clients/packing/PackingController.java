@@ -27,7 +27,6 @@ public class PackingController
   public void doPacked()
   {
     model.doPacked();
-  }
-  
+  }  
 }
 

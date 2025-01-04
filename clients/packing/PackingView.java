@@ -19,6 +19,7 @@ import java.util.Observer;
 public class PackingView implements Observer
 {
   private static final String PACKED = "Packed";
+  private static final String COLLECTED  = "Collected ";
 
   private static final int H = 300;       // Height of window pixels
   private static final int W = 400;       // Width  of window pixels
@@ -28,6 +29,7 @@ public class PackingView implements Observer
   private final JTextArea   theOutput  = new JTextArea();
   private final JScrollPane theSP      = new JScrollPane();
   private final JButton     theBtPack= new JButton( PACKED );
+  private final JButton     theBtCollected = new JButton( COLLECTED );
  
   private OrderProcessing theOrder     = null;
   
@@ -65,7 +67,7 @@ public class PackingView implements Observer
     theBtPack.setBounds( 16, 25+60*0, 80, 40 );   // Check Button
     theBtPack.addActionListener(                   // Call back code
       e -> cont.doPacked() );
-    cp.add( theBtPack );                          //  Add to canvas
+    cp.add( theBtPack );                          //  Add to canvas    
 
     theAction.setBounds( 110, 25 , 270, 20 );       // Message area
     theAction.setText( "" );                        // Blank
@@ -90,6 +92,7 @@ public class PackingView implements Observer
    * @param arg      Specific args 
    */
   @Override
+  
   public void update( Observable modelC, Object arg )
   {
 	  PackingModel model  = (PackingModel) modelC;
@@ -99,11 +102,13 @@ public class PackingView implements Observer
     Basket basket =  model.getBasket();
     if ( basket != null )
     {
-      theOutput.setText( "Date & Time: " + currentDateAndTime + "\n" + basket.getDetails()+"\n"+ "Thank you for shopping with us at " +"\n" + "Ministore! Returns accepted within" + "\n"+"30 days with receipt");
+      theOutput.setText( "Date & Time: " + currentDateAndTime + "\n" + basket.getDetails()+"\n"+ 
+    "Thank you for shopping with us at " +"\n" + 
+    "Ministore! Returns accepted within" + "\n"+"30 days with receipt"); 
     } else {
       theOutput.setText("");
-    }
-  }
+    		}
+  		}
+	}
 
-}
 
